@@ -1,0 +1,13 @@
+# Do not commit signing secrets or private material
+secrets/
+private/
+*.keystore
+*.jks
+*.p12
+*.pem
+*.key
+.env
+
+# Prefer reproducible patch recipes over redistributed binaries
+*.apk
+*.aab
