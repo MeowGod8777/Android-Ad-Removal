@@ -1,48 +1,43 @@
-# Android App 去廣告研究
+# Android App 去廣告
 
-這個 repository 用來整理 **LINE 以外**的 Android App 去廣告、靜態 patch、APK 重建與可重現修改流程。
+這裡放 **LINE 以外**的 Android App 去廣告、靜態 patch、APK 重建和可重現修改流程。LINE 自己放 `LINE-Root-Patches`。
 
-## 已知專案：JMComic3
+## JMComic3
 
-過去實測已驗證：
+之前已經實測到：
 
-- App 可以直接進首頁，不再需要先按原本的關閉 X。
-- 已測試頁面的廣告消失。
-- 漫畫閱讀功能仍可正常使用。
-- 已知小回歸：從「個人中心」回首頁時，可能需要重新選一次內容線路。
+- 可以直接進首頁，不用先按原本的 X。
+- 測過的頁面廣告都沒了。
+- 漫畫正常看。
+- 小問題：從「個人中心」回首頁時，可能要再選一次線路。
 
-這裡**不把重新散布的受版權保護 patched APK 當作 source of truth**。正式保存的應該是可重現的 patch recipe，包括：
+這裡不直接拿 patched APK 當成果保存。比較有用的是把**怎麼改出來**留下來：
 
-- 目標 APK 版本與 hash。
-- 修改過的 resource / smali。
-- rebuild 步驟。
-- signing 步驟。
-- patch 後的功能驗證。
+- 目標 APK 版本 / hash
+- 改了哪些 resource / smali
+- rebuild 怎麼跑
+- 怎麼簽章
+- 改完要測哪些功能
 
-## 通用工具與方法
+## 常用方向
 
-- apktool / resource editing。
-- smali-level static patch。
-- 必要時停用 network / ad SDK 路徑。
-- APK rebuild 與簽章流程。
-- 版本／hash gate，避免上游 App 更新後仍錯套舊 patch。
+- apktool / resource editing
+- smali static patch
+- 必要時處理 network / ad SDK 路徑
+- APK rebuild / signing
+- version / hash gate，避免新版 App 硬套舊 patch
 
-## 更新規則
+## 更新後怎麼看
 
-只要上游 APK、遠端 data package 或廣告 SDK 行為改變，就要重新驗證相關 patch。**不能只因為 APK 安裝成功，就直接判定 patch 與新版本相容。**
+只要 APK、遠端 data package 或 ad SDK 有變，就重新驗證。
 
-## 公開 repository 規則
+**能安裝、能開 App，不代表舊 patch 在新版還正常。**
 
-此 repository 目前為 Public。原始 APK、重簽後 APK、私人 signing key、帳號資料、未去識別 log 或其他不適合公開的檔案不得直接 commit。這裡優先保存「怎麼重現修改」與「如何驗證結果」，而不是散布 App binary。
+## 這是 Public repo
 
-## 分類原則
+不要直接 commit 原始 APK、重簽 APK、私人 signing key、帳號資料或沒去識別的 log。這裡主要留 patch recipe 和驗證結果，不拿來當 APK 分發站。
 
-- LINE 專屬去廣告與功能精簡 → `LINE-Root-Patches`。
-- 其他 App 的去廣告與通用 APK patch 方法 → 本 repository。
-
-## 語言規則
-
-README、patch 說明、驗證結果與已知副作用以繁體中文為主；apktool、smali、package、method、resource name、檔名、hash 與指令維持原文。
+說明用繁中；apktool、smali、package、method、resource name、檔名、hash、指令保留原文。
 
 ---
 
