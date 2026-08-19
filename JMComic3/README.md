@@ -1,22 +1,23 @@
-# JMComic3 ad-removal patch
+# JMComic3 去廣告 patch
 
-## Verified behavior from prior testing
+## 過去已驗證的行為
 
-- App opened directly to the home page without the previous close-X gate.
-- Ads were absent from the tested pages.
-- Comic reading remained functional.
-- Known minor regression: returning from Personal Center to Home may require selecting the content line again.
+- App 可以直接進入首頁，不再需要原本的 close-X gate。
+- 已測試頁面的廣告消失。
+- 漫畫閱讀功能仍可正常使用。
+- 已知小回歸：從「個人中心」回首頁時，可能需要重新選一次內容線路。
 
-## What is still missing
+## 目前還缺什麼
 
-The exact patch recipe/source changes have not yet been recovered into this repository. The prior patched APK itself is not a suitable source-of-truth for a public archive.
+真正的 patch recipe / source 變更目前還沒有完整回收到這個 repository。之前產出的 patched APK 本身不適合拿來當 public archive 的 source of truth。
 
-When the recipe is recovered, record:
-- target APK version and SHA-256
-- exact resource/smali changes
-- rebuild command/tool versions
-- signing method
-- post-patch validation checklist
-- compatibility result after any upstream data-package or APK update
+之後找回 recipe 時，至少要記錄：
 
-Do not publish the proprietary APK binary here as a substitute for reproducible patch source.
+- 目標 APK 版本與 SHA-256。
+- 精確的 resource / smali 修改。
+- rebuild 指令與工具版本。
+- signing 方法。
+- patch 後功能驗證 checklist。
+- 上游 data package 或 APK 更新後的相容性結果。
+
+不要直接把 proprietary APK binary 上傳到這裡，取代真正可重現的 patch source。
