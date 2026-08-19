@@ -8,6 +8,12 @@ LINE 以外的 Android App 去廣告、靜態 patch、AdGuard / DNS / Local VPN 
 
 這裡不拿「改好的 APK」當唯一成果，而是記：**哪個 App、怎麼去廣告、最後有沒有壞功能、更新後還要不要重做。**
 
+### 進行時間
+
+- **主要實測／整理：2026-08。**
+- Smart Life + AdGuard、JMComic3 靜態 patch 都是在這段時間形成比較完整的日用結果。
+- GitHub 系統化整理：2026-08 起。
+
 ### 目前做到哪
 
 **🟢 有兩條已經能實際用的結果：JMComic3 靜態 patch、Smart Life + AdGuard。**
@@ -98,8 +104,9 @@ LINE 以外的 Android App 去廣告、靜態 patch、AdGuard / DNS / Local VPN 
 6. 已知副作用。
 7. 更新後是否要重做。
 
-### 目錄
+### 快速入口
 
+- `COMPATIBILITY.md`：目前方案相容性表。
 - `SmartLife/`：Smart Life + AdGuard / 歷史 module。
 - `JMComic3/`：JMComic3 patch 結果與後續 recipe。
 - `MIGRATION_BACKLOG.md`：還沒找回的舊資料。
