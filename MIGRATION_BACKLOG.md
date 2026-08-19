@@ -13,11 +13,14 @@
 
 ## Smart Life
 
-- [x] 已建立 `SmartLife/README.md`，整理 package / 版本、KernelSU 規則式去廣告方向和目前證據邊界。
-- [~] `SmartLife-AdBlock.zip` / `smartlife_adblock`：名稱與設計已回收，完整 module source 尚未找到。
-- [ ] 找回 6 條規則精確內容。
-- [ ] 找回套用前後實測，確認最後是否真的完整去廣告。
-- [ ] 與 Local VPN / AdGuard 路線做正式差異紀錄。
+- [x] **Smart Life 去廣告目前已解，實用方案是 AdGuard。**
+- [x] 安裝 AdGuard 後 Smart Life 廣告消失。
+- [x] 已記錄全域 AdGuard 的相容性副作用：ChatGPT 外掛／連接功能會失效，ChatGPT 需要排除 AdGuard App 過濾。
+- [x] `SmartLife/README.md` 已改成目前真實日用狀態。
+- [~] `SmartLife-AdBlock.zip` / `smartlife_adblock`：歷史 KernelSU 規則式方案，名稱與設計已回收，完整 source 尚未找到。
+- [ ] 找回歷史 6 條規則精確內容；這是備用／研究線，不影響 Smart Life 目前已解結論。
+- [ ] 後面若再遇到其他 App 被 AdGuard 影響，補 App exclusion / whitelist 矩陣。
+- [ ] 有需要時再拆 DNS / HTTPS filtering / Local VPN 到底是哪一層造成相容性問題。
 
 ## 其他 App
 
