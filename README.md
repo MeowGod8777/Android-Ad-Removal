@@ -1,71 +1,108 @@
 # Android App 去廣告
 
-這裡放 **LINE 以外**的 Android App 去廣告、靜態 patch、AdGuard / DNS / Local VPN 類阻擋，以及可重現修改流程。LINE 自己放 `LINE-Root-Patches`。
+LINE 以外的 Android App 去廣告、靜態 patch、AdGuard / DNS / Local VPN 類方案整理。
 
-## 這個專案要幹嘛
+## 先看這裡
 
-目標不是收一堆改好的 APK，而是把「哪個 App、哪個版本、怎麼把廣告拿掉、改完有沒有壞功能」留成之後能重做的紀錄。
+### 這是什麼
 
-## 目前進度
+這裡不拿「改好的 APK」當唯一成果，而是記：**哪個 App、怎麼去廣告、最後有沒有壞功能、更新後還要不要重做。**
 
-**狀態：JMComic3 已有成功靜態 patch；Smart Life 用 AdGuard 已成功去廣告，但全域過濾有 App 相容性副作用。**
+### 目前做到哪
+
+**🟢 有兩條已經能實際用的結果：JMComic3 靜態 patch、Smart Life + AdGuard。**
+
+#### JMComic3
+
+- ✅ 可以直接進首頁，不用先按 X。
+- ✅ 已測頁面廣告消失。
+- ✅ 漫畫正常看。
+- ⚠️ 從「個人中心」回首頁時，可能要再選一次線路。
+- 📦 完整 patch recipe / resource / smali 修改點還沒全部回收。
+
+#### Smart Life
+
+- ✅ 安裝 AdGuard 後，Smart Life 廣告消失。
+- ✅ 裝置控制目前可正常用。
+- ⚠️ **AdGuard 全域過濾不是零副作用。**
+- ⚠️ 目前已確認 ChatGPT 外掛／連接功能會受影響，所以 ChatGPT 要排除 AdGuard App 過濾。
+
+### 最重要的結論
+
+**沒有廣告 ≠ App 所有功能都正常。**
+
+靜態 patch 要做功能回歸；AdGuard / VPN / DNS 類方案要一起測登入、WebView、OAuth、外掛、第三方服務等網路功能。
+
+### Public repo 注意
+
+這個 repo 是 Public。
+
+不要放：原始 APK、重簽 APK、私人 signing key、帳號資料、未去識別 log。
+
+---
+
+## 玩機／技術細節
 
 ### JMComic3
 
-目前已實測：
+目前保存方向：
 
-- 可以直接進首頁，不用先按原本的 X。
-- 測過的頁面廣告都沒了。
-- 漫畫正常看。
-- 小問題：從「個人中心」回首頁時，可能要再選一次線路。
+- 目標 APK 版本 / SHA-256。
+- resource / smali 修改點。
+- apktool / rebuild。
+- signing。
+- patch 前後功能 checklist。
+- App / data package 更新後重新驗證。
 
-所以「去廣告後能不能正常看漫畫」這一層算**已完成驗證**；但原本到底改了哪些 resource / smali、完整 rebuild recipe 還沒回收，所以可重現 recipe 還沒完整封箱。
+目前功能結果已驗證，但完整 recipe 還沒回收，所以不是完整封箱。
 
 ### Smart Life
 
-Smart Life 最後實際日用不是靠前面規劃的 KernelSU 規則 module，而是：
+目標：
 
-> **安裝 AdGuard 後，Smart Life 廣告消失。**
+`com.tuya.smartlife`
 
-這條目前可以視為已解的實用方案。
+當時版本：7.9.3，targetSdk 36。
 
-但延伸出另一個問題：**AdGuard 全域套用不是完全透明的。** 目前至少已發現 ChatGPT 的外掛／連接功能會因此失效；把 ChatGPT 從 AdGuard 的 App 過濾範圍排除後，功能恢復。
+現在主要方案：**AdGuard**。
 
-所以後面整理 AdGuard 類方案時，不能只寫「全域打開就好」，要一起留：
+歷史上也研究過 KernelSU 規則式 module：
 
-- 哪些 App 需要排除。
-- 排除後廣告／功能是否正常。
-- 問題是 DNS、HTTPS filtering、Local VPN 還是個別規則造成。
+- `SmartLife-AdBlock.zip`
+- module ID：`smartlife_adblock`
+- 約 6 條規則
 
-## 這裡怎麼留成果
+但最後日用不靠這條，所以它現在只留 historical；完整 source 找到後再補。
 
-靜態 APK patch：
+### AdGuard 相容性
 
-- 目標 APK 版本 / hash
-- 改了哪些 resource / smali
-- rebuild 怎麼跑
-- 怎麼簽章
-- 改完要測哪些功能
+後面每次整理要記：
 
-AdGuard / DNS / VPN 類：
+- Local VPN / Root / DNS / HTTPS filtering 模式。
+- 哪些 App 要 exclusion / whitelist。
+- 哪個功能壞掉。
+- 排除後是否恢復。
+- App 更新後是否還需要同樣規則。
 
-- 使用模式（Local VPN / Root / DNS 等）
-- App exclusion / whitelist
-- 會壞掉的功能
-- 實際去廣告結果
-- App 更新後要不要重新調規則
+目前已知：ChatGPT 外掛／連接功能需要排除 AdGuard 過濾。
 
-## 更新後怎麼看
+### 靜態 patch 的固定欄位
 
-只要 APK、遠端 data package、ad SDK、AdGuard 規則或 App 網路行為有變，就重新驗證。
+每個 App 最好都有：
 
-**沒有廣告 ≠ App 所有功能都正常。** Smart Life 這次反而證明全域網路過濾要一起測其他 App 的副作用。
+1. App / package / version。
+2. APK hash。
+3. 修改點。
+4. rebuild / signing 工具版本。
+5. 功能回歸。
+6. 已知副作用。
+7. 更新後是否要重做。
 
-## 這是 Public repo
+### 目錄
 
-不要直接 commit 原始 APK、重簽 APK、私人 signing key、帳號資料或沒去識別的 log。這裡主要留 patch recipe、網路阻擋配置方向和驗證結果，不拿來當 APK 分發站。
-
-說明用繁中；AdGuard、apktool、smali、package、method、resource name、檔名、hash、指令保留原文。
+- `SmartLife/`：Smart Life + AdGuard / 歷史 module。
+- `JMComic3/`：JMComic3 patch 結果與後續 recipe。
+- `MIGRATION_BACKLOG.md`：還沒找回的舊資料。
 
 ---
 
