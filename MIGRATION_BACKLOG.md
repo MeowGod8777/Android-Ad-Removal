@@ -13,9 +13,11 @@
 
 ## Smart Life
 
-- [ ] Root / KernelSU module 去廣告方案紀錄。
-- [ ] 當時使用的規則與實測結果。
-- [ ] 與 Local VPN / AdGuard 路線的差異。
+- [x] 已建立 `SmartLife/README.md`，整理 package / 版本、KernelSU 規則式去廣告方向和目前證據邊界。
+- [~] `SmartLife-AdBlock.zip` / `smartlife_adblock`：名稱與設計已回收，完整 module source 尚未找到。
+- [ ] 找回 6 條規則精確內容。
+- [ ] 找回套用前後實測，確認最後是否真的完整去廣告。
+- [ ] 與 Local VPN / AdGuard 路線做正式差異紀錄。
 
 ## 其他 App
 
