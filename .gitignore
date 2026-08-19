@@ -1,6 +1,9 @@
 # Do not commit signing secrets or private material
 secrets/
 private/
+private-logs/
+raw-dumps/
+unsanitized/
 *.keystore
 *.jks
 *.p12
@@ -11,3 +14,6 @@ private/
 # Prefer reproducible patch recipes over redistributed binaries
 *.apk
 *.aab
+*.apks
+*.xapk
+*.idsig
