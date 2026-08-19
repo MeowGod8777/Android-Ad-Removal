@@ -1,4 +1,4 @@
-# Smart Life 去廣告研究
+# Smart Life 去廣告
 
 目標 App：Smart Life
 
@@ -6,40 +6,54 @@
 - 當時版本：7.9.3
 - targetSdk：36
 
-## 當時要解什麼
+## 要解什麼
 
-主要是把 Smart Life 首頁／App 內廣告拿掉，但不要影響除濕機等正常裝置控制。
+把 Smart Life 首頁／App 內廣告拿掉，但除濕機等正常裝置控制不能壞。
 
-當時研究過一條 **KernelSU / 規則式阻擋** 路線，概念上是用 module 放規則，不直接改 APK，也不要求 LSPosed / Frida。
+## 最後實際結果
 
-曾經規劃過：
+**狀態：已解，現在實用方案是 AdGuard。**
 
-- module：`SmartLife-AdBlock.zip`
+實際安裝 AdGuard 後，Smart Life 廣告已消失，正常裝置控制可繼續用。
+
+前面曾研究過一條 KernelSU / 規則式阻擋路線：
+
+- `SmartLife-AdBlock.zip`
 - module ID：`smartlife_adblock`
 - 約 6 條規則
 
-## 現在能確認什麼
+但最後日用結果不需要靠這條當主方案，所以它現在只留歷史研究，不再把「完整 module source 沒找到」寫成 Smart Life 去廣告仍未解。
 
-舊資料能確認這台 Root / ColorOS 16 環境裡確實有：
+## AdGuard 的副作用
 
-`com.tuya.smartlife/com.thingclips.smart.hometab.activity.FamilyHomeActivity`
+這次也抓到一個比較重要的延伸問題：
 
-但目前**還沒找回完整 module source，也沒找回足夠證據確認最後 6 條規則到底有沒有達到完整去廣告效果**。
+**AdGuard 全域過濾會讓某些 App 的網路功能不正常。**
 
-所以這頁目前只能列成：
+目前已確認 ChatGPT 的外掛／連接功能會受影響。處理方式是：
 
-**狀態：歷史實驗／待回收，不能當成已完成方案。**
+> 在 AdGuard 的 App 過濾範圍裡排除 ChatGPT，不讓 ChatGPT 走這套過濾。
 
-不是因為已證明無解，而是資料不夠，不拿記憶補成可用 module。
+排除後再用 Smart Life 維持 AdGuard 去廣告。
 
-## 待補
+所以這裡不建議把「全域開 AdGuard」當成零副作用方案。之後每次新增 App 都要注意：
 
-- `SmartLife-AdBlock.zip` 或原始 module source
-- 6 條規則的精確內容
-- 套用前後廣告畫面
-- 裝置控制是否正常的回歸測試
-- App 更新後是否還有效
+- App 本身能不能正常登入／連線。
+- 外掛、第三方服務、OAuth / WebView 流程有沒有壞。
+- HTTPS filtering / DNS / Local VPN 哪一層造成問題。
+- 哪些 App 要加入 exclusion。
 
-如果最後只找得到當時配置、找不到完整 source，就會留 historical；若重新做新版，會另外標 `reimplementation`。
+## 歷史 KernelSU 路線
+
+以前研究過不用改 APK、也不要求 LSPosed / Frida 的規則式 module。這條還是值得保存，因為之後如果不想用全域 AdGuard，可能可以重新拿來做 per-App 方案。
+
+但在完整 6 條規則和 source 找回以前，只標 historical，不拿殘缺內容重建成 original。
+
+## 目前進度
+
+- Smart Life 去廣告：**已完成**。
+- 日用方式：**AdGuard**。
+- 已知副作用：全域過濾可能影響其他 App；ChatGPT 外掛／連接功能目前需要排除 AdGuard。
+- KernelSU 6 條規則 module：**歷史研究，待回收 source**。
 
 > **附註：** 內容由 AI 按指定格式上傳整理，有錯、缺漏或其他問題請直接私訊。
